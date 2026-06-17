@@ -19,8 +19,6 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install
-
       - run: npx javascript-obfuscator src --output dist
 
       - uses: peaceiris/actions-gh-pages@v3
