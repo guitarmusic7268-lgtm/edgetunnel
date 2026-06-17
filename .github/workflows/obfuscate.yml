@@ -13,15 +13,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - run: npx javascript-obfuscator src --output dist
+      - name: Create dist folder
+        run: mkdir dist
 
-      - uses: peaceiris/actions-gh-pages@v3
+      - name: Copy project files
+        run: cp -r *.js *.html *.css dist/ || true
+
+      - name: Obfuscate JS
+        run: npx javascript-obfuscator dist --output dist
+
+      - name: Push to build branch
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
